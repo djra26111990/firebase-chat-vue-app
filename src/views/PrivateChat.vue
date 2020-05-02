@@ -93,16 +93,16 @@
           <div class="msg_history">
             <div v-for="message in messages" v-bind:key="message.id" class="incoming_msg">
               <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-              <div class="received_msg">
+              <div :class="[message.author === authUser.displayName ? 'sent_msg' : 'received_msg']">
                 <div class="received_withd_msg">
                   <p>{{ message.message }}</p>
-                  <span class="time_date"> 11:01 AM    |    June 9</span></div>
+                  <span class="time_date">{{ message.author }}</span></div>
               </div>
             </div>
           <div class="type_msg">
             <div class="input_msg_write">
               <input @keyup.enter="saveMessage" v-model="message" type="text" class="write_msg" placeholder="Type a message" />
-              <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+              <button @click="saveMessage" class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
             </div>
           </div>
         </div>
@@ -123,15 +123,23 @@ export default {
   data () {
     return {
       message: null,
-      messages: []
+      messages: [],
+      authUser: {}
     }
   },
   methods: {
+    scrollToBottom(){
+      let box = document.querySelector('.msg_history');
+        box.scrollTop = box.scrollHeight;
+    },
     saveMessage() {
       //save to firestore
       db.collection('chat').add({
         message: this.message,
+        author: this.authUser.displayName,
         createdAt: new Date()
+      }).then(() => {
+        this.scrollToBottom();
       })
       .then(function(docRef) {
         console.log("Document written with ID: ", docRef.id);
@@ -149,11 +157,33 @@ export default {
         allMessages.push(doc.data())
     });
     this.messages = allMessages;
+    setTimeout(() => {
+      this.scrollToBottom();
+    },1000)
 });
     }
   },
-  created () {
+  mounted () {
+    firebase.auth().onAuthStateChanged(user => {
+      if(user){
+        this.authUser = user;
+      } else {
+        this.authUser = {}
+      }
+    })
+
     this.fetchMessages()
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      firebase.auth().onAuthStateChanged(user => {
+        if(user){
+          next()
+        } else {
+          vm.$router.push('/login')
+        }
+      })
+    })
   }
 }
 </script>
