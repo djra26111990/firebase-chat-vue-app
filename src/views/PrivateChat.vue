@@ -18,10 +18,10 @@
             </div>
           </div>
         </div>
+        <v-btn @click="logout">
+          Logout
+        </v-btn>
       </div>
-      
-      
-      <p class="text-center top_spac"> Design by <a target="_blank" href="#">Daniel Rivas©</a></p>
       
     </div>
   </div>
@@ -36,13 +36,20 @@ export default {
     return {
       message: null,
       messages: [],
-      authUser: {}
+      authUser: {},
+      router: null
     }
   },
   methods: {
     scrollToBottom(){
       let box = document.querySelector('.msg_history');
         box.scrollTop = box.scrollHeight;
+    },
+    logout() {
+    firebase.auth().signOut().then(() => {
+    }).catch((error) => {
+    console.log(error)
+    });
     },
     saveMessage() {
       //save to firestore
@@ -92,7 +99,7 @@ export default {
         if(user){
           next()
         } else {
-          vm.$router.push('/login')
+          vm.$router.push('/')
         }
       })
     })

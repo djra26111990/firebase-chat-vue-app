@@ -1,14 +1,51 @@
 <template>
-  <div>
-      <h1>Login with your Google Account</h1>
-    <button @click="login">Login</button>
-  </div>
+  <v-app id="inspire">
+    <v-content>
+      <v-container
+        class="fill-height"
+        fluid
+      >
+        <v-row
+          align="center"
+          justify="center"
+        >
+          <v-col
+            cols="12"
+            sm="8"
+            md="4"
+          >
+            <v-card class="elevation-12">
+              <v-toolbar
+                color="primary"
+                dark
+                flat
+              >
+                <v-toolbar-title>Login</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-tooltip bottom>
+                </v-tooltip>
+              </v-toolbar>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                  <v-btn @click="login" color="primary">
+                    <v-icon>mdi-google</v-icon>
+                  </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
 import firebase from 'firebase'
 
 export default {
+    props: {
+      source: String,
+    },
     methods: {
         login(){
             var provider = new firebase.auth.GoogleAuthProvider();
@@ -20,7 +57,7 @@ export default {
             // The signed-in user info.
             var user = result.user;
 
-            this.$router.push('/')
+            this.$router.push('/chat')
 
             }).catch(function(error) {
             // Handle Errors here.
