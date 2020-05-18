@@ -79,9 +79,9 @@ export default {
     console.log(error)
     });
     },
-    async saveMessage() {
+    saveMessage() {
       //save to firestore
-      await db.collection('chat').add({
+      db.collection('chat').add({
         message: this.message,
         author: this.authUser.displayName,
         createdAt: new Date()
@@ -94,6 +94,7 @@ export default {
       });
       //clean the input msg field
       this.message = null
+      //scrolling down to bottom at send msg
       this.scrollToBottom()
     },
     fetchMessages() {
