@@ -1,35 +1,35 @@
 <template>
-<div>
+<div class="maindiv">
   <v-container fluid>
-    <div id="container" style="max-height: 410px; overflow-y: auto">
-      <v-list height="90" flat class="overflow-y-auto" v-for="message in messages" v-bind:key="message.id">
+    <div class="div-translucido" id="container" style="max-height: 410px; overflow-y: auto">
+      <div v-for="message in messages" v-bind:key="message.id">
         <template v-if="message.author === authUser.displayName">
           <v-chip class="ma-2" label color="#90CAF9">
-            {{ message.message }}
+            {{ message.message }} / {{ message.createdAt }}
           </v-chip>
           <span>{{ message.author }}</span>
           <v-spacer></v-spacer>
         </template>
         <template v-else>
-          <v-chip class="ma-2" label color="#A5D6A7">
-            {{ message.message }}
+          <v-chip class="ma-2" label color="white">
+            {{ message.message }} / {{ message.createdAt }}
           </v-chip>
           <span>{{ message.author }}</span>
           <v-spacer></v-spacer>
         </template>
-      </v-list>
+      </div>
     </div>
-  </v-container>
   <v-spacer></v-spacer>
-  <v-container fluid>
-    <v-footer fixed>
+    <div>
       <v-row>
         <v-col
         cols="12"
         sm="6"
         >
           <v-text-field
-          label="message" 
+          placeholder="message" 
+          background-color="white"
+          rounded
           @keyup.enter="saveMessage" 
           v-model="message"
           />
@@ -47,16 +47,14 @@
             </v-btn>
             </v-col>
             </v-row>
-            </v-footer>
-        <v-btn @click="logout">
-          Logout
-        </v-btn>
+            </div>
         </v-container>
 </div>
 </template>
 
 <script>
 import firebase from 'firebase'
+import moment from 'moment'
 
 export default {
   name: 'PrivateChat',
@@ -84,7 +82,7 @@ export default {
       db.collection('chat').add({
         message: this.message,
         author: this.authUser.displayName,
-        createdAt: new Date()
+        createdAt: moment().format('MMMM Do YYYY, HH:mm:ss')
       })
       .then((docRef) => {
          console.log("Document written with ID: ", docRef.id);
@@ -118,7 +116,6 @@ export default {
         this.authUser = {}
       }
     })
-
     this.fetchMessages()
     this.scrollToBottom()
   },
@@ -140,7 +137,13 @@ export default {
 </script>
 
 <style>
-.v-list{
-  overflow-y: auto;
+.maindiv {
+  background: url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png");
+  width: 100%;
+}
+
+.div-translucido {
+  background-color: rgba(0, 0, 0, 0);
+    color:#000;
 }
 </style>
