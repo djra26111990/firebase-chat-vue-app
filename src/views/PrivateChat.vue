@@ -1,51 +1,60 @@
 <template>
 <v-container fluid class="maindiv">
-    <div class="div-translucido" id="container" style="max-height: 431px; overflow-x: hidden; overflow-y: auto">
+    <div class="div-translucido" id="container" style="max-height: 445px; overflow-x: hidden; overflow-y: auto">
       <div v-for="message in messages" v-bind:key="message.id">
         <template v-if="message.author === authUser.displayName">
         <v-row dense align="center" justify="start">
-          <v-col sm="2">
+          <v-col sm="2" xs="2">
           <v-card
             class="animate__animated animate__slideInLeft"
-            color="#385F73"
+            color="#90CAF9"
             dark
           >
-            <v-card-title class="body-2">{{ message.author }}</v-card-title>
+            <v-card-title class="body-2">
+              <div>
+                {{ message.author }}
+              </div>
+              <v-col offset="1" class="font-weight-thin">
+                {{ message.messageTime }}
+              </v-col>
+            </v-card-title>
 
             <v-card-subtitle>{{ message.message }}</v-card-subtitle>
             
-            <v-card-text class="overline text--primary">
-              <div>{{ message.messageTime }}</div>
-            </v-card-text>
           </v-card>
           </v-col>
         </v-row>
         </template>
         <template v-else>
         <v-row dense align="center" justify="space-around">
-          <v-col sm="2">
+          <v-col sm="2" xs="2">
           <v-card
             class="animate__animated animate__slideInRight"
             color="white"
           >
-            <v-card-title class="body-2">{{ message.author }}</v-card-title>
+            <v-card-title class="body-2">
+              <div>
+                {{ message.author }}
+              </div>
+              <v-col offset="1" class="font-weight-thin">
+                {{ message.messageTime }}
+              </v-col>
+            </v-card-title>
 
-            <v-card-subtitle>{{ message.message }}</v-card-subtitle>
+            <v-card-subtitle>
+              {{ message.message }}
+            </v-card-subtitle>
             
-            <v-card-text class="overline text--primary">
-              <div>{{ message.messageTime }}</div>
-            </v-card-text>
           </v-card>
           </v-col>
         </v-row>
         </template>
       </div>
     </div>
-    <v-footer color="#E0E0E0" fixed>
+    <div>
       <v-row>
         <v-col
-        cols="12"
-        sm="6"
+        xs="6"
         >
           <v-text-field
           placeholder="message" 
@@ -54,21 +63,35 @@
           @keyup.enter="saveMessage" 
           v-model="message"
           />
-            </v-col>
-            <v-col
-            cols="12"
-            sm="6"
-            >
-            <v-btn @click="saveMessage"
-            fab
-            >
-            <v-icon>
-              mdi-comment-text-outline
-            </v-icon>
-            </v-btn>
-            </v-col>
-            </v-row>
-            </v-footer>
+        </v-col>
+        <v-col
+        xs="6"
+        >
+          <v-btn class="mx-2"
+          small
+          @click="saveMessage"
+          fab
+          >
+          <v-icon>
+            mdi-comment-text-outline
+          </v-icon>
+          </v-btn>
+         </v-col>
+         <v-col
+        xs="2"
+        >
+          <v-btn class="mx-2"
+          small
+          @click="logout"
+          fab
+          >
+          <v-icon>
+            mdi-power
+          </v-icon>
+          </v-btn>
+         </v-col>
+      </v-row>
+    </div>
 </v-container>
 </template>
 
@@ -158,10 +181,21 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .maindiv {
   background: url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png");
   background-size: auto auto;
+}
+
+.v-btn {
+  margin-top: 9px;
+}
+
+.v-card {
+  max-width: 210px;
+  max-height: 90px;
+  height: auto;
+  width: auto;
 }
 
 .div-translucido {
@@ -189,6 +223,13 @@ export default {
 
 .v-application .headline {
   font-size: 0.88rem;
+}
+
+@media (max-width: 460px) {
+  .v-card {
+  max-width: 250px;
+  max-height: 110px;
+}
 }
 
 </style>

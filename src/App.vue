@@ -7,7 +7,6 @@
     >
 
       <v-spacer></v-spacer>
-
     </v-app-bar>
 
     <v-content>
@@ -22,7 +21,7 @@ export default {
   name: 'App',
 
   data: () => ({
-    //
+    authUser: {}
   }),
 };
 </script>

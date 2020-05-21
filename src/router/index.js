@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import PrivateChat from '../views/PrivateChat.vue'
+import SignUp from '@/views/SignUp'
 import Login from '@/views/Login'
 
 Vue.use(VueRouter)
@@ -15,6 +16,11 @@ Vue.use(VueRouter)
     path: '/',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/signup',
+    name: 'SignUp',
+    component: SignUp
   }
 ]
 
