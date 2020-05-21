@@ -1,26 +1,47 @@
 <template>
-<div class="maindiv">
-  <v-container fluid>
-    <div class="div-translucido" id="container" style="max-height: 410px; overflow-y: auto">
+<v-container fluid class="maindiv">
+    <div class="div-translucido" id="container" style="max-height: 431px; overflow-x: hidden; overflow-y: auto">
       <div v-for="message in messages" v-bind:key="message.id">
         <template v-if="message.author === authUser.displayName">
-          <v-chip class="ma-2" label color="#90CAF9">
-            {{ message.message }} / {{ message.createdAt }}
-          </v-chip>
-          <span>{{ message.author }}</span>
-          <v-spacer></v-spacer>
+        <v-row dense align="center" justify="start">
+          <v-col sm="2">
+          <v-card
+            class="animate__animated animate__slideInLeft"
+            color="#385F73"
+            dark
+          >
+            <v-card-title class="body-2">{{ message.author }}</v-card-title>
+
+            <v-card-subtitle>{{ message.message }}</v-card-subtitle>
+            
+            <v-card-text class="overline text--primary">
+              <div>{{ message.messageTime }}</div>
+            </v-card-text>
+          </v-card>
+          </v-col>
+        </v-row>
         </template>
         <template v-else>
-          <v-chip class="ma-2" label color="white">
-            {{ message.message }} / {{ message.createdAt }}
-          </v-chip>
-          <span>{{ message.author }}</span>
-          <v-spacer></v-spacer>
+        <v-row dense align="center" justify="space-around">
+          <v-col sm="2">
+          <v-card
+            class="animate__animated animate__slideInRight"
+            color="white"
+          >
+            <v-card-title class="body-2">{{ message.author }}</v-card-title>
+
+            <v-card-subtitle>{{ message.message }}</v-card-subtitle>
+            
+            <v-card-text class="overline text--primary">
+              <div>{{ message.messageTime }}</div>
+            </v-card-text>
+          </v-card>
+          </v-col>
+        </v-row>
         </template>
       </div>
     </div>
-  <v-spacer></v-spacer>
-    <div>
+    <v-footer color="#E0E0E0" fixed>
       <v-row>
         <v-col
         cols="12"
@@ -47,14 +68,14 @@
             </v-btn>
             </v-col>
             </v-row>
-            </div>
-        </v-container>
-</div>
+            </v-footer>
+</v-container>
 </template>
 
 <script>
 import firebase from 'firebase'
 import moment from 'moment'
+import 'animate.css'
 
 export default {
   name: 'PrivateChat',
@@ -82,7 +103,8 @@ export default {
       db.collection('chat').add({
         message: this.message,
         author: this.authUser.displayName,
-        createdAt: moment().format('MMMM Do YYYY, HH:mm:ss')
+        createdAt: moment().format('MMMM DD YYYY, HH:mm:ss'),
+        messageTime: moment().format('HH:mm')
       })
       .then((docRef) => {
          console.log("Document written with ID: ", docRef.id);
@@ -139,11 +161,34 @@ export default {
 <style>
 .maindiv {
   background: url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png");
-  width: 100%;
+  background-size: auto auto;
 }
 
 .div-translucido {
   background-color: rgba(0, 0, 0, 0);
     color:#000;
 }
+
+.div-translucido::-webkit-scrollbar {
+  width: 1em;
+  opacity: 0
+}
+
+.div-translucido::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+ 
+.div-translucido::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+.v-card__subtitle, .v-card__text {
+  font-size: 0.7rem;
+}
+
+.v-application .headline {
+  font-size: 0.88rem;
+}
+
 </style>

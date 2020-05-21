@@ -11,11 +11,7 @@
     </v-app-bar>
 
     <v-content>
-      <div id="app">
-        <div id="nav">
-        </div>
-          <router-view/>
-      </div>
+      <router-view/>
     </v-content>
   </v-app>
 </template>
@@ -30,3 +26,7 @@ export default {
   }),
 };
 </script>
+
+<style>
+
+</style>
