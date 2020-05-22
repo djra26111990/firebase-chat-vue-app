@@ -77,19 +77,6 @@
           </v-icon>
           </v-btn>
          </v-col>
-         <v-col
-        xs="2"
-        >
-          <v-btn class="mx-2"
-          small
-          @click="logout"
-          fab
-          >
-          <v-icon>
-            mdi-power
-          </v-icon>
-          </v-btn>
-         </v-col>
       </v-row>
     </div>
 </v-container>
